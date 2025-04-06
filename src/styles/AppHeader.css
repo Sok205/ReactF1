@@ -11,6 +11,14 @@
   margin: 0 auto;
   text-align: center;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-text {
+  flex-grow: 1;
+  text-align: center;
 }
 
 .f1-logo {
@@ -102,4 +110,38 @@
 .f1-logo:hover {
   transform: scale(1.1);
   animation: none;
+}
+
+.auth-buttons {
+  margin-top: 1rem;
+}
+
+.auth-button {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-button:hover {
+  background: white;
+  color: #e10600;
+}
+
+.logout-button {
+  background: #e10600;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background: #cc0500;
 }
