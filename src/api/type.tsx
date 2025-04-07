@@ -16,6 +16,17 @@ export interface RegisterRequest {
   export interface LoginResponse {
     access_token: string;
     token_type: string;
+    user_id: number;
+  }
+  
+
+  export interface DriverChangeRequest{
+    user_id: number;
+    fav_driver: string;
+  }
+
+  export interface DriverChangeResponse{
+    msg: string;
   }
   
   export{};

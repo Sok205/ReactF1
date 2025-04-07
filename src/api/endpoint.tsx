@@ -19,7 +19,7 @@ interface Driver {
 }
 
 export const useDriverData = () => {
-  const { data, error } = useSwr<Driver[]>('http://127.0.0.1:8000/win/2025/3', fetcher);
+  const { data, error } = useSwr<Driver[]>('http://127.0.0.1:8000/win/2025/1', fetcher);
   return {
     drivers: data ? Object.values(data) : [],
     isLoading: !error && !data,

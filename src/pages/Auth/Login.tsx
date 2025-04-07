@@ -25,7 +25,12 @@ const Login = () => {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }
       );
+      console.log("Login successful, token:", response.data);
+
+      //Setting our variables in local storage
       localStorage.setItem("token", response.data.access_token);
+      localStorage.SetItem("user_id", response.data.user_id)
+      
       alert("Login successful!");
       navigate('/');
     } catch (err: any) {

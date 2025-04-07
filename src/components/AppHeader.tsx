@@ -1,6 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AppHeader.css';
+import { idText } from 'typescript';
 
 const AppHeader = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -27,7 +28,7 @@ const AppHeader = () => {
               <button className="auth-button" onClick={() => navigate('/login')}>
                 Login
               </button>
-              <button className="auth-button" onClick={() => navigate('/register')}>
+              <button id= "niga" className="auth-button" onClick={() => navigate('/register')}>
                 Register
               </button>
             </div>
@@ -37,5 +38,6 @@ const AppHeader = () => {
     </header>
   );
 };
+
 
 export default AppHeader;
