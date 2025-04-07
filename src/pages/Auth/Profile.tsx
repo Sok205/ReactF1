@@ -1,52 +1,102 @@
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { DriverChangeRequest, DriverChangeResponse } from "../../api/type";
-import { useNavigate, Link } from "react-router-dom";
-import './styles/Auth.css'
+import { DriverChangeResponse } from "../../api/type";
+import { Link } from "react-router-dom";
+import './styles/Auth.css';
 
-const Profile = () => {
-    // Creating a form that will handle our fav_driver change
-    const [form, setForm] = useState({ fav_driver: '' });
-  
-    // Registering the change of the favourite driver
-    const handleDriverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    };
-  
-    const handleDriverBackendChange = async () => {
-      const params = new URLSearchParams();
-      params.append("fav_driver", form.fav_driver);
-      const user_id = localStorage.getItem("user_id");
-  
-      try {
-        // Using template literals to embed user_id in the URL
-        const response = await axios.post<DriverChangeResponse>(
-          `http://127.0.0.1/profile/${user_id}/driver`,
-          params,
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        );
-        alert("Driver changed successfully");
-      } catch (err: any) {
-        alert(err?.response?.data?.detail || "Couldn't get the driver");
-      }
-    };
-  
-    return (
-      <>
-        <div>
-          <input
-            name="fav_driver"
-            type="text"
-            onChange={handleDriverChange}
-            placeholder="Max Verstappen"
-          />
-        </div>
-        <button onClick={handleDriverBackendChange}>Change Driver</button>
-      </>
-    );
+interface Profile {
+  id?: number;
+  username: string;
+  fav_driver: string;
+  send_notification: boolean;
+  email: string;
+  user_id: number;
+}
+
+const ProfileComponent: React.FC = () => {
+  // State to hold the profile data.
+  const [profile, setProfile] = useState<Profile | null>(null);
+  // State to hold the form input for changing the favourite driver.
+  const [form, setForm] = useState({ fav_driver: '' });
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Function to fetch the user's profile from the FastAPI backend.
+  const fetchProfile = async () => {
+    const user_id = localStorage.getItem("user_id");
+    if (!user_id) {
+      alert("User id not found");
+      return;
+    }
+    try {
+      const response = await axios.get<Profile>(`http://127.0.0.1:8000/profile/${user_id}`);
+      setProfile(response.data);
+      setLoading(false);
+    } catch (err: any) {
+      console.error("Error fetching profile:", err);
+      setLoading(false);
+    }
   };
-  
-  export default Profile;
-  
+
+  // useEffect to fetch the profile on component mount.
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  // Handler for input change event.
+  const handleDriverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Handler to update the favourite driver in the backend.
+  const handleDriverBackendChange = async () => {
+    const user_id = localStorage.getItem("user_id");
+    if (!user_id) {
+      alert("User id not found");
+      return;
+    }
+
+    const params = new URLSearchParams();
+    params.append("fav_driver", form.fav_driver);
+
+    try {
+      // POST request to update the favourite driver.
+      const response = await axios.put<DriverChangeResponse>(
+        `http://127.0.0.1:8000/profile/${user_id}/driver`,
+        params,
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+      alert("Driver changed successfully");
+      fetchProfile();
+    } catch (err: any) {
+      alert(err?.response?.data?.detail || "Couldn't change the driver");
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (!profile) return <div>No profile found</div>;
+
+  return (
+    <div className="profile-container">
+      <h1>{profile.username}'s Profile</h1>
+      <p>Email: {profile.email}</p>
+      <p>Favourite Driver: {profile.fav_driver}</p>
+      <p>Send Notification: {profile.send_notification ? "Yes" : "No"}</p>
+      <hr />
+      <h2>Change Favourite Driver</h2>
+      <div>
+        <input
+          name="fav_driver"
+          type="text"
+          onChange={handleDriverChange}
+          placeholder="Enter new favourite driver"
+        />
+        <button onClick={handleDriverBackendChange}>Change Driver</button>
+      </div>
+      <Link to="/">Back to Home</Link>
+    </div>
+  );
+};
+
+export default ProfileComponent;

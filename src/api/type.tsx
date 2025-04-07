@@ -17,6 +17,7 @@ export interface RegisterRequest {
     access_token: string;
     token_type: string;
     user_id: number;
+    username: string;
   }
   
 
@@ -28,5 +29,5 @@ export interface RegisterRequest {
   export interface DriverChangeResponse{
     msg: string;
   }
-  
+
   export{};

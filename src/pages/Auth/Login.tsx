@@ -29,8 +29,8 @@ const Login = () => {
 
       //Setting our variables in local storage
       localStorage.setItem("token", response.data.access_token);
-      localStorage.SetItem("user_id", response.data.user_id)
-      
+      localStorage.setItem("user_id", response.data.user_id.toString());
+      localStorage.setItem("username", response.data.username);
       alert("Login successful!");
       navigate('/');
     } catch (err: any) {
