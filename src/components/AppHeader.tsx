@@ -1,10 +1,20 @@
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AppHeader.css';
+import { idText } from 'typescript';
 
 const AppHeader = () => {
-  const { isAuthenticated, logout, username } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Retrieve the username from localStorage on component mount
+    const storedUsername = localStorage.getItem("username");
+    setUsername(storedUsername);
+  }, [isAuthenticated]);
 
   const handleLogout = () => {
     logout();
@@ -15,16 +25,17 @@ const AppHeader = () => {
     <header className="app-header">
       <div className="header-content">
         <div className="f1-logo" onClick={() => navigate('/')}>F1</div>
-        <h1>Championship Tracker</h1>
-        <p>2022 Season Standings & Championship Possibilities</p>
+        
+        <h1 className="header-title">Championship Tracker</h1>
+        
         <div className="auth-buttons">
           {isAuthenticated ? (
             <div>
-              <button className="logout-button" onClick={handleLogout}>
+              <button className="auth-button" onClick={handleLogout}>
                 Logout
               </button>
               <button className="auth-button" onClick={() => navigate('/profile')}>
-                {username || 'Profile'}
+                {username}
               </button>
             </div>
           ) : (
@@ -42,5 +53,6 @@ const AppHeader = () => {
     </header>
   );
 };
+
 
 export default AppHeader;

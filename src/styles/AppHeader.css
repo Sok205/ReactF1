@@ -9,18 +9,13 @@
 .header-content {
   max-width: 1200px;
   margin: 0 auto;
-  text-align: center;
-  position: relative;
+  position: relative; /* enables absolute positioning of children */
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.header-text {
-  flex-grow: 1;
-  text-align: center;
-}
-
+/* Logo on the left */
 .f1-logo {
   font-size: 3rem;
   font-weight: 900;
@@ -30,43 +25,51 @@
   height: 60px;
   line-height: 60px;
   border-radius: 8px;
-  margin: 0 auto 1rem;
   text-align: center;
   box-shadow: 0 4px 8px rgba(225, 6, 0, 0.3);
   font-family: 'Titillium Web', sans-serif;
+  cursor: pointer;
+  z-index: 1;
 }
 
-.header-content h1 {
-  font-size: 2.5rem;
-  font-weight: 900;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  font-family: 'Titillium Web', sans-serif;
-  position: relative;
-  display: inline-block;
-}
-
-.header-content h1::after {
-  content: '';
+/* Center the title absolutely */
+.header-title {
   position: absolute;
-  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #e10600;
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-family: 'Titillium Web', sans-serif;
+  margin: 0;
+  text-align: center;
 }
 
-.header-content p {
-  font-size: 1.1rem;
-  margin-top: 1.5rem;
-  opacity: 0.9;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  color: #ffffff99;
+/* Buttons on the right */
+.auth-buttons {
+  z-index: 1;
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .f1-logo {
+    font-size: 2.5rem;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .header-title {
+    font-size: 2rem;
+  }
+}
+
 
 @media (max-width: 768px) {
   .app-header {

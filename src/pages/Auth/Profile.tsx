@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { DriverChangeResponse } from "../../api/type";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import './styles/Auth.css';
 
 interface Profile {
@@ -73,6 +73,36 @@ const ProfileComponent: React.FC = () => {
     }
   };
 
+
+  // Handler to update the status of the notifications
+  const HandlerNotificationChange = async () => {
+     
+    const user_id = localStorage.getItem("user_id");
+    if (!user_id){
+        alert("User id not found")
+        return;
+    }
+
+    const notifaction = !profile?.send_notification
+
+   const data = {'notification':notifaction}
+
+    try{
+        const respomse = await axios.put(
+            `http://127.0.0.1:8000/profile/${user_id}/notification`,
+            data,
+            {
+                headers: {"Content-Type": "application/json"}
+            }
+        );
+        alert("Status changed successfully");
+        fetchProfile();
+    }catch(err: any){
+        alert(err?.response?.data?.detail || "Couldn't change the notifcation status");
+    }
+
+  }
+
   if (loading) return <div>Loading...</div>;
   if (!profile) return <div>No profile found</div>;
 
@@ -82,6 +112,7 @@ const ProfileComponent: React.FC = () => {
       <p>Email: {profile.email}</p>
       <p>Favourite Driver: {profile.fav_driver}</p>
       <p>Send Notification: {profile.send_notification ? "Yes" : "No"}</p>
+      <button onClick={() => HandlerNotificationChange()}>Change Status</button>
       <hr />
       <h2>Change Favourite Driver</h2>
       <div>
@@ -93,7 +124,7 @@ const ProfileComponent: React.FC = () => {
         />
         <button onClick={handleDriverBackendChange}>Change Driver</button>
       </div>
-      <Link to="/">Back to Home</Link>
+      <Link to="/">Back to Home</Link>c
     </div>
   );
 };
