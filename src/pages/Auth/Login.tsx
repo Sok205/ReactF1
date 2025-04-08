@@ -3,9 +3,11 @@ import axios from 'axios';
 import { LoginResponse } from '../../api/type';
 import { useNavigate, Link } from 'react-router-dom';
 import './styles/Auth.css';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({ username: '', password: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,12 +28,12 @@ const Login = () => {
         }
       );
       console.log("Login successful, token:", response.data);
-
       //Setting our variables in local storage
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("user_id", response.data.user_id.toString());
       localStorage.setItem("username", response.data.username);
       alert("Login successful!");
+      login(response.data.access_token,response.data.username);
       navigate('/');
     } catch (err: any) {
       alert(err?.response?.data?.detail || "Login failed");

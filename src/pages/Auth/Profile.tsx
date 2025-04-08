@@ -55,14 +55,13 @@ const ProfileComponent: React.FC = () => {
       return;
     }
 
-    const params = new URLSearchParams();
-    params.append("fav_driver", form.fav_driver);
+    const data = {"fav_driver": form.fav_driver}
 
     try {
-      // POST request to update the favourite driver.
+      console.log(data)
       const response = await axios.put<DriverChangeResponse>(
         `http://127.0.0.1:8000/profile/${user_id}/driver`,
-        params,
+        data,
         {
           headers: { 'Content-Type': 'application/json' }
         }
