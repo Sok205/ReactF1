@@ -30,4 +30,9 @@ export interface RegisterRequest {
     msg: string;
   }
 
+  export interface DriverDataParams {
+    year: string;
+    gp: string;
+  }
+
   export{};

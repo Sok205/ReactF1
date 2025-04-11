@@ -14,13 +14,13 @@ interface Profile {
 }
 
 const ProfileComponent: React.FC = () => {
-  // State to hold the profile data.
+
   const [profile, setProfile] = useState<Profile | null>(null);
-  // State to hold the form input for changing the favourite driver.
+
   const [form, setForm] = useState({ fav_driver: '' });
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Function to fetch the user's profile from the FastAPI backend.
+
   const fetchProfile = async () => {
     const user_id = localStorage.getItem("user_id");
     if (!user_id) {
@@ -37,17 +37,15 @@ const ProfileComponent: React.FC = () => {
     }
   };
 
-  // useEffect to fetch the profile on component mount.
+
   useEffect(() => {
     fetchProfile();
   }, []);
 
-  // Handler for input change event.
   const handleDriverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Handler to update the favourite driver in the backend.
   const handleDriverBackendChange = async () => {
     const user_id = localStorage.getItem("user_id");
     if (!user_id) {
@@ -109,7 +107,7 @@ const ProfileComponent: React.FC = () => {
   return (
     <div className="profile-container">
       <h1>{profile.username}'s Profile</h1>
-      <p>Email: {profile.email}</p>
+      <p>Email: {profile.email} </p>
       <p>Favourite Driver: {profile.fav_driver}</p>
       <p>Send Notification: {profile.send_notification ? "Yes" : "No"}</p>
       <button onClick={() => HandlerNotificationChange()}>Change Status</button>
@@ -124,7 +122,7 @@ const ProfileComponent: React.FC = () => {
         />
         <button onClick={handleDriverBackendChange}>Change Driver</button>
       </div>
-      <Link to="/">Back to Home</Link>c
+      <Link to="/">Back to Home</Link>
     </div>
   );
 };

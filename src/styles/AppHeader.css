@@ -9,13 +9,12 @@
 .header-content {
   max-width: 1200px;
   margin: 0 auto;
-  position: relative; /* enables absolute positioning of children */
+  position: relative; 
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Logo on the left */
 .f1-logo {
   font-size: 3rem;
   font-weight: 900;
@@ -32,7 +31,6 @@
   z-index: 1;
 }
 
-/* Center the title absolutely */
 .header-title {
   position: absolute;
   left: 50%;
@@ -47,12 +45,10 @@
   text-align: center;
 }
 
-/* Buttons on the right */
 .auth-buttons {
   z-index: 1;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .app-header {
     padding: 1.5rem 1rem;

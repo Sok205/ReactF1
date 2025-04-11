@@ -25,9 +25,7 @@ const AppHeader = () => {
     <header className="app-header">
       <div className="header-content">
         <div className="f1-logo" onClick={() => navigate('/')}>F1</div>
-        
         <h1 className="header-title">Championship Tracker</h1>
-        
         <div className="auth-buttons">
           {isAuthenticated ? (
             <div>
